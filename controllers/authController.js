@@ -1,35 +1,43 @@
 // controllers/authController.js
 import User from "../models/User.js";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import config from "../config.js";
 
 const signup = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ username, password: hashedPassword });
+    const user = new User(req.body);
     await user.save();
-    res.status(201).json({ message: "User created successfully" });
+    res
+      .status(201)
+      .json({ success: true, message: "Account created successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Error creating user" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error logging in", error });
   }
 };
 
 const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    const token = jwt.sign({ userId: user._id }, config.jwtSecret, {
+      expiresIn: config.jwtLifetime,
     });
-    res.status(200).json({ token });
+    res.status(200).json({
+      success: true,
+      message: "Login Successful",
+      data: { username: user.username, email: user.email, token },
+    });
   } catch (error) {
-    res.status(500).json({ error: "Error logging in" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error logging in", error });
   }
 };
 
