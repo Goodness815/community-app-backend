@@ -22,6 +22,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api", questionRoutes);
 app.use("/api", pastQuestionRoutes);
 
+app.get("/", (req, res) => {
+    res.send("community forum backend (active)");
+  });
+
 // Start server
 const start = async () => {
   try {
