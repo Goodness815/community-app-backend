@@ -2,12 +2,12 @@
   "name": "community-app-backend",
   "version": "1.0.0",
   "description": "community forum project",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "npm run test",
-    "dev": "nodemon app.js",
-    "start": "node app.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
