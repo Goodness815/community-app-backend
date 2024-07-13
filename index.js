@@ -2,7 +2,6 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes.js";
 import questionRoutes from "./routes/questionRoutes.js";
 import pastQuestionRoutes from "./routes/pastQuestionRoutes.js";
@@ -39,3 +38,7 @@ const start = async () => {
 };
 
 start();
+
+
+// Export the app for Vercel
+export default app;
