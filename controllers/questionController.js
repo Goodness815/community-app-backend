@@ -42,6 +42,28 @@ const getQuestions = async (req, res) => {
       .json({ success: false, message: "Error fetching questions", error });
   }
 };
+const getSingleQuestion = async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(404).json({ success: false, message: "Invalid Id!" });
+  }
+
+  try {
+    const question = await Question.find({ _id: id });
+    if (!question) {
+      return res.status(404).json({ success: false, message: "Invalid Id!" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Question fetched successfully!",
+      data: question,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error fetching question", error });
+  }
+};
 const replyToQuestion = async (req, res) => {
   try {
     const { id } = req.params; // ID of the question to reply to
@@ -94,4 +116,4 @@ const replyToQuestion = async (req, res) => {
   }
 };
 
-export { createQuestion, getQuestions, replyToQuestion };
+export { createQuestion, getQuestions,getSingleQuestion, replyToQuestion };
