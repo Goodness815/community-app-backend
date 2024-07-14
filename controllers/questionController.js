@@ -27,7 +27,7 @@ const getQuestions = async (req, res) => {
           path: "user",
           select: "username",
         },
-        select: "user content",
+        select: "user content postedAt",
       })
       .sort({ postedAt: -1 }); // Sort by postedAt in descending order
 
@@ -55,7 +55,7 @@ const getSingleQuestion = async (req, res) => {
         path: "user",
         select: "username",
       },
-      select: "user content",
+      select: "user content postedAt",
     });
     if (!question) {
       return res.status(404).json({ success: false, message: "Invalid Id!" });
