@@ -98,10 +98,9 @@ const replyToQuestion = async (req, res) => {
     await question.save();
 
     // Populate the user field in the reply
-    const populatedReply = await Reply.findById(savedReply._id).populate(
-      "user",
-      "username email"
-    );
+    const populatedReply = await Reply.findById(savedReply._id)
+      .populate("user", "username email")
+      .sort({ postedAt: -1 });
 
     res.status(201).json({
       success: true,
@@ -116,4 +115,4 @@ const replyToQuestion = async (req, res) => {
   }
 };
 
-export { createQuestion, getQuestions,getSingleQuestion, replyToQuestion };
+export { createQuestion, getQuestions, getSingleQuestion, replyToQuestion };
