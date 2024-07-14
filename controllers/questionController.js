@@ -28,7 +28,8 @@ const getQuestions = async (req, res) => {
           select: "username",
         },
         select: "user content",
-      });
+      })
+      .sort({ postedAt: -1 }); // Sort by postedAt in descending order
 
     res.status(200).json({
       success: true,
@@ -41,7 +42,6 @@ const getQuestions = async (req, res) => {
       .json({ success: false, message: "Error fetching questions", error });
   }
 };
-
 const replyToQuestion = async (req, res) => {
   try {
     const { id } = req.params; // ID of the question to reply to
