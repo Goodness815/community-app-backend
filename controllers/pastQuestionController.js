@@ -68,9 +68,19 @@ const uploadPastQuestion = async (req, res) => {
 const getPastQuestions = async (req, res) => {
   try {
     const pastQuestions = await PastQuestion.find();
-    res.status(200).json(pastQuestions);
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "fetched past questions!",
+        data: pastQuestions,
+      });
   } catch (error) {
-    res.status(500).json({ error: "Error fetching past questions" });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching past questions",
+      error,
+    });
   }
 };
 
