@@ -49,10 +49,14 @@ const getSingleQuestion = async (req, res) => {
   }
 
   try {
-    const question = await Question.findOne({ _id: id }).populate(
-      "user",
-      "username email"
-    );
+    const question = await Question.findOne({ _id: id }).populate({
+      path: "replies",
+      populate: {
+        path: "user",
+        select: "username",
+      },
+      select: "user content",
+    });
     if (!question) {
       return res.status(404).json({ success: false, message: "Invalid Id!" });
     }
