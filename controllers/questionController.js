@@ -49,7 +49,10 @@ const getSingleQuestion = async (req, res) => {
   }
 
   try {
-    const question = await Question.findOne({ _id: id });
+    const question = await Question.findOne({ _id: id }).populate(
+      "user",
+      "username email"
+    );
     if (!question) {
       return res.status(404).json({ success: false, message: "Invalid Id!" });
     }
