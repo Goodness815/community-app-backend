@@ -67,7 +67,7 @@ const uploadPastQuestion = async (req, res) => {
 
 const getPastQuestions = async (req, res) => {
   try {
-    const pastQuestions = await PastQuestion.find();
+    const pastQuestions = await PastQuestion.find() .sort({ postedAt: -1 });
     res
       .status(200)
       .json({
