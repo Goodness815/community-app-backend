@@ -49,7 +49,7 @@ const getSingleQuestion = async (req, res) => {
   }
 
   try {
-    const question = await Question.find({ _id: id });
+    const question = await Question.findOne({ _id: id });
     if (!question) {
       return res.status(404).json({ success: false, message: "Invalid Id!" });
     }
