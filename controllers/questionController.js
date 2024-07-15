@@ -52,13 +52,13 @@ const getSingleQuestion = async (req, res) => {
     const question = await Question.findOne({ _id: id })
       .populate({
         path: "replies",
+        options: { sort: { postedAt: -1 } }, // Sorting the replies within the population
         populate: {
           path: "user",
           select: "username",
         },
         select: "user content postedAt",
       })
-      .sort({ postedAt: -1 });
     if (!question) {
       return res.status(404).json({ success: false, message: "Invalid Id!" });
     }
